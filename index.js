@@ -12,10 +12,11 @@ module.exports = generate;
  * Generate a request logging middleware.
  *
  * @param {Logger} logger
+ * @param {Logger} onResponse
  * @return {Function}
  */
 
-function generate (logger) {
+function generate (logger, onResponse) {
   return function requestLog (req, res, next) {
     onResponse(req, res, function (err, summary) {
       var status = summary.response.status;
@@ -30,7 +31,7 @@ function generate (logger) {
       }
 
       var msg = format(summary);
-      log.bind(logger)(msg, summary);
+      log.bind(logger)(summary, msg);
     });
 
     next();
@@ -47,9 +48,7 @@ function generate (logger) {
 function format (summary) {
   var request = summary.request;
   var response = summary.response;
-  var msg = 'Request processed';
-  if (response.status >= 500) msg = 'Internal error';
-  else if (response.status >= 400) msg = 'Malformed request';
+  var msg = 'Handled';
   msg += ' (' + response.status + ') ';
   return msg + request.method + ' ' + request.url + ' ' +
     response.time + 'ms';
