@@ -1,6 +1,6 @@
 {
   "name": "configurable-request-log-middleware",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "dependencies": {
     "extend": "^1.2.1"
   }

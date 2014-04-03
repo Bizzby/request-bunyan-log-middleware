@@ -1,6 +1,5 @@
 
 var extend = require('extend');
-var onResponse = require('on-response');
 
 /**
  * Expose `generate`.
