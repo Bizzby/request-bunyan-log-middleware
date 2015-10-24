@@ -19,18 +19,16 @@ function generate (logger, onResponse) {
   return function requestLog (req, res, next) {
     onResponse(req, res, function (err, summary) {
       var status = summary.response.status;
-      var log = logger.info;
+
       if (status >= 500) {
-        log = logger.error;
         extend(summary.request, { body: req.body });
       }
       else if (status >= 400) {
-        log = logger.warn;
         extend(summary.request, { body: req.body });
       }
 
       var msg = format(summary);
-      log.bind(logger)(summary, msg);
+      logger.trace(summary, msg);
     });
 
     next();
